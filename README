@@ -6,3 +6,10 @@
 ## ---- WHAT TO DO
 
 1. Create paths for CRUD operations with links under path: '/link'
+
+http://guides.rubygems.org/faqs/#user-install
+
+# do ~/.bashrc
+if which ruby >/dev/null && which gem1.9.3 >/dev/null; then
+  PATH="$(ruby1.9.3 -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
