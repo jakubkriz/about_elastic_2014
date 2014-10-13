@@ -1,0 +1,6 @@
+development:
+  database: about_sql
+  host: localhost
+  adapter: sqlite
+  user:
+  password:

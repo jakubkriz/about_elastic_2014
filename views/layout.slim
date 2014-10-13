@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Slim Examples
+    meta name="keywords" content="template language"
+    meta name="author" content=@author
+    link href='/base.css' rel='stylesheet' type='text/css'
+    meta charset="utf-8"
+
+  body style='width: 800px; margin: auto;'
+    #container style='text-align: center;'
+      #bodypart style='text-align: left;'
+        a href='/' Domů
+      #content
+        == yield
+
+    div id="footer"
+      | Copyright © #{@year} #{@author}

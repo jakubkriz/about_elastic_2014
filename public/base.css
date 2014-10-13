@@ -1,0 +1,14 @@
+#content {
+  text-align: center;
+  margin: auto;
+}
+
+#content table
+{
+  width: 500px;
+}
+
+#content table tr td
+{
+  padding: 5px;
+}

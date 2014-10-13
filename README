@@ -1,0 +1,8 @@
+1. $ bundle install
+2. $ bundle exec rake db:migrate
+4. $ shotgun -p 3000
+5. Go to your browser!
+
+## ---- WHAT TO DO
+
+1. Create paths for CRUD operations with links under path: '/link'

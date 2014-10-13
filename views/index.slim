@@ -1,0 +1,10 @@
+- if items.empty?
+  p
+   | No items found.  Please add some inventory.
+     Thank you!
+- else
+  table
+    - for item in items do
+      tr
+        td.name = item['name']
+        td.price = item['uco']
