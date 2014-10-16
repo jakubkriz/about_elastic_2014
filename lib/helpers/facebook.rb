@@ -9,47 +9,44 @@ module Facebook
 
   FACEBOOK_GRAPH_URL = 'http://graph.facebook.com/'
   FACEBOOK_API_URL   = 'http://api.facebook.com/'
-  UNKNOWN, otpt      = 'neznámý', []
+  UNKNOWN            = 'neznámý'
 
-  def send_request(base_url, tail='')
-    url      = URI.join base_url, tail
-    response = Net::HTTP.get_response url
-    unless response.code == '200'
-      pp "DOWNLOAD error for '#{url}': #{response.code} #{response.body}"
-      return {}
-    end
-    JSON.parse response.body
-  end
+  class << self
 
-  def self.download urls=[]
-    rslt = urls.map { |url|
+    def get_domain(url)
       base_domain = URI.parse(url).host
-      otpt << {'url' => url}
-      unless base_domain
-        otpt.last.merge!({'error' => "BAD URI"})
-        next
+      return nil unless base_domain
+      base_domain.downcase =~ /(?:.*\.)?(\S+\.[a-z]{1,4})\z/ ? $1 : nil
+    end
+
+    def send_request(base_url, tail='')
+      url      = URI.join base_url, tail
+      response = Net::HTTP.get_response url
+      unless response.code == '200'
+        pp "DOWNLOAD error for '#{url}': #{response.code} #{response.body}"
+        return {}
       end
+      JSON.parse response.body
+    end
 
-      # EXTRA TASK 3
-      base_domain = base_domain.downcase =~ /(?:.*\.)?(\S+\.[a-z]{1,4})\z/ ? $1 : nil
+    def download_domain base_domain
+      response_domain = self.send_request FACEBOOK_GRAPH_URL, "#{base_domain}?format=json"
+      {
+        :id    => response_domain['id']    || UNKNOWN,
+        :likes => response_domain['likes'] || UNKNOWN,
+      }
+    end
 
-      response_domain = send_request FACEBOOK_GRAPH_URL, base_domain
+    def download url
+      response_url = self.send_request(
+        FACEBOOK_API_URL, "method/links.getStats?urls=#{URI::encode(url)}&format=json")
+      response_url.kind_of?(Array) ? response_url.first : response_url
+    end
 
-      response_url = send_request(
-        FACEBOOK_API_URL, "method/links.getStats?urls=#{url}&format=json")
-      response_url = response_url.first if response_url.kind_of?(Array)
+    def clean_url url
+      url.sub(/#\S+\z/, '')
+    end
 
-      # TASK 1 + 2 HERE
-      otpt.last.merge!({
-        'host'                      => base_domain,
-        'Facebook ID'               => response_domain['id']       || UNKNOWN,
-        'Počet likes stránky na FB' => response_domain['likes']    || UNKNOWN,
-        'Počet likes článku'        => response_url['like_count']  || UNKNOWN,
-        'Počet sdílení článku'      => response_url['share_count'] || UNKNOWN,
-      })
-      otpt
-    }
-    rslt.compact
   end
 
 end

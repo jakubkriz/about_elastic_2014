@@ -1,0 +1,9 @@
+form method='post' action='/link#{defined?(@link) ? "/#{@link[:id]}" : 's'}'
+  label for='name'
+    | URL
+  input type='text' name='url' id='url' value='#{@link[:url] if defined?(@link)}'
+  - if defined?(@link)
+    input type='submit' value='Edituj link'
+    input type='hidden' value='put' name='_method'
+  - else
+    input type='submit' value='Přidej link'

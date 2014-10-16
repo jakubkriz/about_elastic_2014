@@ -7,6 +7,7 @@ Sequel.migration do
       foreign_key :link_id, :Stats, key: :id
       String :likes_count
       String :shares_count
+      DateTime :download_time
     end
   end
 

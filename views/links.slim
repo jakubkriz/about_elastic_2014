@@ -1,0 +1,36 @@
+h2
+  Links
+
+== slim :link_form, :layout => false
+
+h2 URLs
+a href="/refresh" Obnov všechny výsledky
+
+- if defined?(@links)
+  table style='width: 95%;'
+    thead
+      tr
+        th Doména
+        th URL
+        th FB ID
+        th FB ID likes count
+        th URL likes count
+        th URL shares count
+        th colspan='2' Akce
+    tbody
+      - @links.each do |link|
+        tr
+          td = link[:domain]
+          td
+            a href="/link/#{link[:id]}"
+              = link[:url]
+          td = link[:facebook_id]
+          td = link[:facebook_likes]
+          td = link[:likes_count]
+          td = link[:shares_count]
+          td
+            a href="/link/#{link[:id]}/edit" Edit
+          td
+            form method='post' action='/link/#{link[:id]}' style='display: inline-block'
+              input type='hidden' value='delete' name='_method'
+              input type='submit' value='x'
