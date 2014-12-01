@@ -1,13 +1,13 @@
 1. $ bundle install
-2. $ bundle exec rake db:migrate
 4. $ shotgun -p 3000
 5. Go to your browser!
 
 ## ---- WHAT TO DO
 
-1. Create paths for CRUD operations with links under path: '/link'
+1. Create search as
 
-http://guides.rubygems.org/faqs/#user-install
+-- number == search by sysno
+-- text   == query in search_title and author.search_name
 
 # do ~/.bashrc
 if which ruby >/dev/null && which gem1.9.3 >/dev/null; then
