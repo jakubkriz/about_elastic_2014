@@ -2,7 +2,7 @@ h2 Najdi knihu
 
 form method="post" action="/search"
   .form-group
-    input type='text' class="form-control input-xxlarge" name='search'
+    input type='text' class="form-control input-xxlarge" name='search' value="#{params['search'] if params['search']}"
   .form-group
     label.checkbox.inline
       input type='checkbox' class="form-control" name='author' checked="true" Autor
@@ -18,3 +18,17 @@ table.table.table-hover
       th Sysno
       th ISBN
   tbody
+    - if @books && !@books.empty?
+      - @books.each do |book|
+        tr
+          td
+            a href="/book/#{book['sysno']}" target="_blank"
+              == book['full_title'] || book['title']
+          td
+            - if book['author'] && !book['author'].empty?
+              - book['author'].each do |author|
+               = author['name']
+            - else
+              není
+          td == book['sysno']
+          td == book['isbn']

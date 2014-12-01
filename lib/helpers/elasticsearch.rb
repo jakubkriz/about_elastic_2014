@@ -135,7 +135,11 @@ class ElasticSearch
   def search(query, idx = @idx)
     url, data = "#{@url}/#{idx}/_search", Oj.dump(query)
     response  = request_elastic(:post, url, data) or return nil
-    response['hits']
+    docs = {}
+    response['hits']['hits'].each { |doc|
+      docs[doc['_id']] = doc['_source']
+    }
+    docs
   end # count
 
   # query - hash of the query to be done
